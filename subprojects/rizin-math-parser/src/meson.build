@@ -1,8 +1,9 @@
+python_exe = find_program('python3', required: false)
 tree_sitter_bin = find_program('tree-sitter', required: false)
 node_bin = find_program('node', required: false)
-if tree_sitter_bin.found() and node_bin.found() and tree_sitter_dep.type_name() != 'internal'
+if python_exe.found() and tree_sitter_bin.found() and node_bin.found() and tree_sitter_dep.type_name() != 'internal'
   parser_c = custom_target('parser_src_c',
-    command: [tree_sitter_wrap_py, tree_sitter_bin, '@OUTDIR@/..', '@INPUT@'],
+    command: [python_exe, tree_sitter_wrap_py, tree_sitter_bin, '@OUTDIR@/..', '@INPUT@'],
     input: [grammar_js],
     output: 'parser.c',
   )
